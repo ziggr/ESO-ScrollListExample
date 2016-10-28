@@ -1,4 +1,4 @@
---[[ 
+--[[
 Title: ScrollListExample
 Description: Example of ScrollList implementation
 Author: pills
@@ -29,10 +29,10 @@ function UnitList:New()
 end
 
 function UnitList:Initialize()
- 	self.masterList = {}
- 	ZO_ScrollList_AddDataType(self.list, 1, "ScrollListExampleUnitRow", 30, function(control, data) self:SetupUnitRow(control, data) end)
- 	ZO_ScrollList_EnableHighlight(self.list, "ZO_ThinListHighlight")
- 	self.sortFunction = function(listEntry1, listEntry2) return ZO_TableOrderingFunction(listEntry1.data, listEntry2.data, self.currentSortKey, UnitList.SORT_KEYS, self.currentSortOrder) end
+	self.masterList = {}
+	ZO_ScrollList_AddDataType(self.list, 1, "ScrollListExampleUnitRow", 30, function(control, data) self:SetupUnitRow(control, data) end)
+	ZO_ScrollList_EnableHighlight(self.list, "ZO_ThinListHighlight")
+	self.sortFunction = function(listEntry1, listEntry2) return ZO_TableOrderingFunction(listEntry1.data, listEntry2.data, self.currentSortKey, UnitList.SORT_KEYS, self.currentSortOrder) end
 	self:RefreshData()
 end
 
@@ -47,18 +47,18 @@ function UnitList:BuildMasterList()
 end
 
 function UnitList:FilterScrollList()
-    local scrollData = ZO_ScrollList_GetDataList(self.list)
-    ZO_ClearNumericallyIndexedTable(scrollData)
+	local scrollData = ZO_ScrollList_GetDataList(self.list)
+	ZO_ClearNumericallyIndexedTable(scrollData)
 
-    for i = 1, #self.masterList do
-        local data = self.masterList[i]
-    	table.insert(scrollData, ZO_ScrollList_CreateDataEntry(1, data))
-    end    
+	for i = 1, #self.masterList do
+		local data = self.masterList[i]
+		table.insert(scrollData, ZO_ScrollList_CreateDataEntry(1, data))
+	end
 end
 
 function UnitList:SortScrollList()
-    local scrollData = ZO_ScrollList_GetDataList(self.list)
-    table.sort(scrollData, self.sortFunction)
+	local scrollData = ZO_ScrollList_GetDataList(self.list)
+	table.sort(scrollData, self.sortFunction)
 end
 
 function UnitList:SetupUnitRow(control, data)
@@ -102,7 +102,7 @@ function SLE.MouseUp(control, button, upInside)
 end
 
 function SLE.TrackUnit()
-	local targetName = GetUnitName("reticleover") 
+	local targetName = GetUnitName("reticleover")
 	if targetName == "" then return end
 	local targetRace = GetUnitRace("reticleover")
 	local targetClass = GetUnitClass("reticleover")
@@ -119,7 +119,7 @@ function SLE.Init(eventCode, addOnName)
 	EVENT_MANAGER:RegisterForEvent("SLE_RETICLE_TARGET_CHANGED", EVENT_RETICLE_TARGET_CHANGED, SLE.TrackUnit)
 
 	SLE.UnitList = UnitList:New()
-	local playerName = GetUnitName("player") 
+	local playerName = GetUnitName("player")
 	local playerRace = GetUnitRace("player")
 	local playerClass = GetUnitClass("player")
 	local playerZone = GetUnitZone("player")
