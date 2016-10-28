@@ -24,11 +24,15 @@ UnitList.SORT_KEYS = {
 
 function UnitList:New()
 	local units = ZO_SortFilterList.New(self, ScrollListExampleMainWindow)
-	units:Initialize()
 	return units
 end
 
-function UnitList:Initialize()
+function UnitList:Initialize(control)
+	ZO_SortFilterList.Initialize(self, control)
+
+	self.sortHeaderGroup:SelectHeaderByKey("name")
+	ZO_SortHeader_OnMouseExit(ScrollListExampleMainWindowHeadersName)
+
 	self.masterList = {}
 	ZO_ScrollList_AddDataType(self.list, 1, "ScrollListExampleUnitRow", 30, function(control, data) self:SetupUnitRow(control, data) end)
 	ZO_ScrollList_EnableHighlight(self.list, "ZO_ThinListHighlight")
@@ -94,11 +98,8 @@ function SLE.MouseExit(control)
 end
 
 function SLE.MouseUp(control, button, upInside)
-	local name = control.data.name
-	local gender = control.data.gender
-	local class = control.data.class
-	local level = control.data.level
-	d(name, gender, class, level)
+	local cd = control.data
+	d(table.concat( { cd.name, cd.race, cd.class, cd.zone }, " "))
 end
 
 function SLE.TrackUnit()
